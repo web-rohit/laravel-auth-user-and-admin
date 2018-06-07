@@ -18,6 +18,10 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
+            // if(Auth::user()->verified == 0) {
+            //     auth()->logout();
+            //     return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+            // }
             return redirect('/home');
         }
 

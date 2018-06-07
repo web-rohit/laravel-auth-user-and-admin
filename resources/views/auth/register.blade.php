@@ -59,9 +59,45 @@
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
+                        </div><div class="form-group row">
+                            <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
+
+                            <div class="col-md-6">
+                                <!-- <input id="name" type="text" 
+                                class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}"
+                                 name="country" value="{{ old('country') }}" required autofocus> -->
+
+                                 <select name="country" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" required autofocus>
+                                    <option value="">Select Country</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('country'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('country') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                         <div class="form-group row">
-                            <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
+                            <label for="state" class="col-md-4 col-form-label text-md-right">{{ __('State') }}</label>
+
+                            <div class="col-md-6">
+                                 <select name="state" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" required autofocus>
+                                    <option value="">Select State</option>
+                                </select>
+
+                                @if ($errors->has('state'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('state') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="{{ old('city') }}" required autofocus>
@@ -73,19 +109,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" value="{{ old('country') }}" required autofocus>
-
-                                @if ($errors->has('country'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('country') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -100,4 +124,20 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        $('select[name=country]').change(function() {
+            var url = '{{ url('country') }}/' + $(this).val() + '/states/';
+            $.get(url, function(data) {
+                var select = $('form select[name= state]');
+                select.empty();
+                select.append('<option value="">Select State</option>');
+                $.each(data,function(key, value) {
+                    select.append('<option value=' + value.id + '>' + value.name + '</option>');
+                });
+            });
+        });
+    });
+</script>
 @endsection

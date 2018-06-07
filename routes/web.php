@@ -18,6 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::get('/country', 'CountryController@index')->name('country');
+Route::get('country/{country}/states', 'CountryController@getStates');
 
 Route::get('admin-dashboard', ['middleware' => 'admin', function () {
     return view('admin/dashboard');

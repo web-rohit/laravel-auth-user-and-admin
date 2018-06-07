@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Country;
 
 class RegisterController extends Controller
 {
@@ -40,6 +41,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    protected function showRegistrationForm() {
+        return view('auth/register', [
+            'countries' => Country::all(),
+           // 'countries' => ['1' => 'india']
+        ]);
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -69,8 +76,11 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'city' => $data['city'],
-            'country' => $data['country'],
+            'country_id' => $data['country'],
+            'state_id' => $data['state'],
             'admin' => 0,
+            'verified' => 0,
+            'remember_token' => str_random(40),
             'password' => Hash::make($data['password']),
         ]);
     }

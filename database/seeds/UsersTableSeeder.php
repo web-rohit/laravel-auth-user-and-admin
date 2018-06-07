@@ -19,8 +19,10 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
             'city' => str_random(6),
-            'country' => str_random(10),
-            'admin' => 1
+            'country_id' => 6,
+            'state_id' => 6,
+            'admin' => 1,
+            'verified' => 1
         ]);
     }
 }
