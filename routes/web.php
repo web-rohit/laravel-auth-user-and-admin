@@ -27,3 +27,7 @@ Route::get('country/{country}/states', 'CountryController@getStates');
 Route::get('admin-dashboard', ['middleware' => 'admin', function () {
     return view('admin/dashboard');
 }])->name('admin-dashboard');
+
+Route::middleware(['admin'])->group(function () {
+    Route::get('users', 'HomeController@users')->name('users');
+});
