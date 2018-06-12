@@ -28,7 +28,7 @@ class HomeController extends Controller
     }
 
     public function users() {
-        $users = User::where(['admin' => 0])->get();
-        return view('admin/users')->with(['data' => $users]);
+        $users = User::where(['admin' => 0])->with(['country', 'state'])->get();
+        return view('admin/users')->with(['users' => $users]);
     }
 }

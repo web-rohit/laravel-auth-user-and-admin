@@ -1,31 +1,55 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Users') }}</div>
+  <!-- Page -->
+  <div class="page animsition">
+    <div class="page-header">
+      <h1 class="page-title">Users</h1>
+    </div>
+    <div class="page-content">
+      <!-- Panel Basic -->
+      <div class="panel">
+        <div class="panel-body">
+          <table class="table table-hover dataTable table-striped width-full" data-plugin="dataTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Country</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            @if($users->count() > 0)
 
-                <div class="card-body">
-                <table style="width:100%;">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                    </tr>
-                    @foreach($data as $user)
-                    <tr>
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->email}}</td>
-                        <td><?php if($user->verified) { echo 'Active'; } else { echo 'In Active'; } ?></td>
-                    </tr>
-                    @endforeach
-                </table>
-                    
+              @foreach($users as $user)
 
-                   </div>
-                </div>
-            </div>
+                  <tr>
+
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->city }}</td>
+                    <td>{{ $user->state->name }}</td>
+                    <td>{{ $user->country->name }}</td>
+                    <td><?php if($user->verified == 1) { ?>
+                        Active
+                     <?php } else { ?>
+                        In Active
+                     <?php } ?></td>
+                  </tr>
+
+                @endforeach
+
+                @endif
+            </tbody>
+          </table>
         </div>
-        @endsection
+      </div>
+      <!-- End Panel Basic -->
+
+    </div>
+  </div>
+  <!-- End Page -->
+  @endsection
